@@ -87,7 +87,7 @@ def Gcash():
                 print("Incorrect MPIN. Try Again")
                 wrongTries += 1
         except ValueError:
-            print("Invalid MPIN")
+            print("Invalid MPIN. Enter a number")
             continue
 
     # Opens Gcash if the MPIN is correct
