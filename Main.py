@@ -66,11 +66,13 @@ def grocery():
     print("-----------------------")
 
 def Gcash():
-    # Variables
+    # User Information Variables
     gcashOpen = False
     userName = "Spenzer"
-    mpin = 4785
+    userBalance = 1500.00
+    mpin = 4567
 
+    # Login Variables
     wrongTries = 0
     loginSuccess = False
 
@@ -85,9 +87,11 @@ def Gcash():
                 break  # Exit the loop immediately if MPIN is correct
             else:
                 print("Incorrect MPIN. Try Again")
+                print("-------------------------------------")
                 wrongTries += 1
         except ValueError:
-            print("Invalid MPIN. Enter a number")
+            print("Invalid MPIN. Try again.")
+            print("-------------------------------------")
             continue
 
     # Opens Gcash if the MPIN is correct
@@ -101,8 +105,8 @@ def Gcash():
             except ValueError:
                 print("Invalid Amount. Try again.")
                 continue
-            if sendingAmt <= 0:
-                print("Amount must be greater than 0. Try again.")
+            if sendingAmt <= 0 or sendingAmt > userBalance:
+                print("Amount must be greater than 0 and\nless than your balance. Try again.")
                 continue
 
             receiverNum = input("Enter receivers number: ")
@@ -110,11 +114,14 @@ def Gcash():
             # Checks if the receiver number is valid (only digits and not empty)
             # You can also use len(receiverNum) == 11 to check if the number has 11 digits
             if receiverNum != "" and receiverNum.isdigit():
+                # Gets Current Date and Time
+                currentDate = dt.datetime.now()
                 receipt = f"{userName} sent ${sendingAmt:.2f} to {receiverNum}"
                 print("---------------RECEIPT----------------")
                 print(receipt)
-                print(dt.datetime.now())
+                print(f"Date: {currentDate:%Y-%m-%d}\nTime: {currentDate:%H:%M:%S}")
                 print("---------------------------------------")
+                userBalance -= sendingAmt
             else:
                 print("Invalid Number. Try again.")
                 continue
