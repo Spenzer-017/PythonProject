@@ -1,0 +1,382 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                    SHOPPING CART PROGRAM
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+menu = {"Hamburger" : 10.99,
+        "Hotdog" : 4.99,
+        "Soda" : 1.99,
+        "Fries" : 1.99,
+        "Chicken" : 13.99,
+        "Rice" : 1.00}
+
+cart = []
+total = 0
+
+print("-------- MENU --------")
+
+for key, value in menu.items():
+    print(f"{key:9} : ${value:.2f}")
+
+print("----------------------")
+
+while True:
+    bought_items = input("Enter a product you want to buy (Press q to quit): ").capitalize()
+    if bought_items == "Q":
+        break
+    elif menu.get(bought_items) is not None:
+        cart.append(bought_items)
+
+print("------ YOUR TOTAL ------")
+
+for bought_items in cart:
+    total += menu.get(bought_items)
+
+for item in cart:
+    print(f"{item:13} : ${value:.2f}")
+
+print("-------------------------")
+print(f"Your Total is: ${total:.2f}")
+print("-------------------------")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                     DICE ROLLER PROGRAM
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+
+dice_art = {
+    1: ("┌─────────┐",
+        "│         │",
+        "│    ●    │",
+        "│         │",
+        "└─────────┘"),
+    2: ("┌─────────┐",
+        "│  ●      │",
+        "│         │",
+        "│      ●  │",
+        "└─────────┘"),
+    3: ("┌─────────┐",
+        "│  ●      │",
+        "│    ●    │",
+        "│      ●  │",
+        "└─────────┘"),
+    4: ("┌─────────┐",
+        "│  ●   ●  │",
+        "│         │",
+        "│  ●   ●  │",
+        "└─────────┘"),
+    5: ("┌─────────┐",
+        "│  ●   ●  │",
+        "│    ●    │",
+        "│  ●   ●  │",
+        "└─────────┘"),
+    6: ("┌─────────┐",
+        "│  ●   ●  │",
+        "│  ●   ●  │",
+        "│  ●   ●  │",
+        "└─────────┘")}
+
+dice = []
+total = 0
+uinp = int(input("Enter how many dice you wanna roll: "))
+
+
+for die in range(uinp):
+    dice.append(random.randint(1, 6))
+
+for line in range(5):
+    for die in dice:
+        print(dice_art.get(die)[line], end="")
+    print()
+
+for die in dice:
+    total += die
+
+print(f"The Total is: {total}")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                   ROCK, PAPER, SCISSORS PROGRAM
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+
+picks = ("rock", "paper", "scissors")
+gamerunning = True
+
+print("-----------ROCK, PAPER, SCISSORS-----------")
+
+while gamerunning == True:
+
+    oppick = random.choice(picks)
+    mypick = None
+
+    while mypick not in (picks):
+        mypick = input("Enter Your Pick (Rock, Paper, or Scissors): ").lower()
+
+    print("--------------------------------------------")
+
+    print(f"You Pick: {mypick}")
+    print(f"Your Oppenent Pick: {oppick}")
+
+    print("--------------------------------------------")
+
+    if mypick == oppick:
+        print("YOU TIED!")
+    elif mypick == "rock" and oppick == "paper":
+        print("YOU LOSE!")
+    elif mypick == "rock" and oppick == "scissors":
+        print("YOU WIN!")
+    elif mypick == "paper" and oppick == "rock":
+        print("YOU WIN!")
+    elif mypick == "paper" and oppick == "scissors":
+        print("YOU LOSE!")
+    elif mypick == "scissors" and oppick == "paper":
+        print("YOU WIN!")
+    elif mypick == "scissors" and oppick == "rock":
+        print("YOU LOSE!")
+
+    print("--------------------------------------------")
+
+    playmore = input("Would you like to play again (y/n)? ").lower()
+    if not playmore == "y":
+        gamerunning = False
+
+print("Thanks For Playing!")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                        HANGMAN GAME
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+
+random_words = ["katarina", "yasuo", "azir", "syndra", "ahri", "ziggs", "heimerdinger", "hwei"]
+hangman_art = {0:("   ",
+                  "   ",
+                  "   ",),
+               1:(" o ",
+                  "   ",
+                  "   ",),
+               2:(" o ",
+                  " | ",
+                  "   ",),
+               3:(" o ",
+                  "/| ",
+                  "   ",),
+               4:(" o ",
+                  "/|\\",
+                  "   ",),
+               5:(" o ",
+                  "/|\\",
+                  "/  ",),
+               6:(" o ",
+                  "/|\\",
+                  "/ \\",),}
+def display_man(wrong_guesses):
+    print("--------------")
+    for line in hangman_art[wrong_guesses]:
+        print(line)
+    print("--------------")
+def display_hint(hint):
+    print(" ".join(hint))
+def display_answer(answer):
+    print(" ".join(answer))
+    pass
+def main():
+    answer = random.choice(random_words)
+    hint = ["_"] * len(answer)
+    wrong_guesses = 0
+    guessed_letter = set()
+    is_running = True
+
+    while is_running:
+        display_man(wrong_guesses)
+        display_hint(hint)
+        guess = input("Enter a letter: ").lower()
+
+        if len(guess) != 1 or not guess.isalpha():
+            print("Invalid Input!")
+            continue
+
+        if guess in guessed_letter:
+            print(f"{guess} is already guessed")
+            continue
+
+        guessed_letter.add(guess)
+
+        if guess in answer:
+            for i in range(len(answer)):
+                if answer[i] == guess:
+                    hint[i] = guess
+        else:
+            wrong_guesses += 1
+
+        if "_" not in hint:
+            display_man(wrong_guesses)
+            display_answer(f"The Correct Answer is: {answer}")
+            print("You Win!")
+            is_running = False
+        elif wrong_guesses >= len(hangman_art) - 1:
+            display_man(wrong_guesses)
+            display_answer(f"The Correct Answer is: {answer}")
+            print("You Lose!")
+            is_running = False
+
+if __name__ == "__main__":
+    main()
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                      BANKING PROGRAM
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+def show_balance():
+        print(f"Your current balance is: ${balance:.2f}")
+def deposit():
+    deposit_amount = float(input("Enter deposit amount: "))
+
+    if deposit_amount <= 0:
+        print("Invalid amount")
+        return 0
+    else:
+        return deposit_amount
+def withdraw():
+    withdraw_amount = float(input("Enter withdraw amount: "))
+
+    if withdraw_amount <= 0:
+        print("Invalid amount")
+        return 0
+    elif withdraw_amount > balance:
+        print("Insufficient balance")
+        return 0
+    else:
+        return withdraw_amount
+
+balance = 1200
+running = True
+
+while running:
+
+    print("What would you like to do:")
+    print("1. Balance")
+    print("2. Deposit")
+    print("3. Withdraw")
+    print("4. Exit")
+    user = input("Choose between (1-4): ")
+
+    if user == "1":
+        show_balance()
+    elif user =="2":
+        balance += deposit()
+    elif user =="3":
+        balance -= withdraw()
+    elif user =="4":
+        running = False
+    else:
+        print("Invalid input")
+
+print("Thanks for coming!")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                      COLOR GAME
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+
+def roll_cubes():
+    # Simulate rolling three cubes with six possible colors.
+    cube_arts = ["🟥", "🟦", "🟩", "🟨", "🟪", "⬜"]
+    return [random.choice(cube_arts) for _ in range(3)]
+
+def show_cubes(rolled):
+    # Display the rolled cubes.
+    print("--------------")
+    print(" | ".join(rolled))
+    print("--------------")
+
+def calculate_matches(rolled, chosen_color):
+    # Count how many times the chosen color appears in the roll.
+    return rolled.count(chosen_color)
+
+def calculate_payout(matches, bet):
+    # Calculate the payout based on matches.
+    if matches == 3:
+        return bet * 4
+    elif matches == 2:
+        return bet * 3
+    elif matches == 1:
+        return bet * 2
+    return 0
+
+def color_picker(color_number):
+    # Convert a number to its corresponding color.
+    colors = {
+        1: "🟥",
+        2: "🟦",
+        3: "🟩",
+        4: "🟨",
+        5: "🟪",
+        6: "⬜"
+    }
+    return colors.get(color_number)
+
+def main():
+    balance = 100  # Starting balance
+    print("-----COLOR GAME-----")
+    print("Bet on one or more colors and win based on the dice roll!")
+
+    while balance > 0:
+        print(f"\nYour current balance: ${balance:.2f}")
+        print("Available colors: 1:Red, 2:Blue, 3:Green, 4:Yellow, 5:Pink, 6:White")
+
+        bets = {}
+        total_bet = 0
+
+        while True:
+            try:
+                color_number = int(input("Enter a color number to bet on (1-6, or 0 to finish): "))
+                if color_number == 0:
+                    break
+
+                chosen_color = color_picker(color_number)
+                if not chosen_color:
+                    print("Invalid color number. Please choose between 1 and 6.")
+                    continue
+
+                bet = int(input(f"Enter the bet amount for {chosen_color}: "))
+                if bet <= 0 or bet > balance - total_bet:
+                    print("Invalid bet amount. Ensure it is within your remaining balance.")
+                    continue
+
+                bets[chosen_color] = bets.get(chosen_color, 0) + bet
+                total_bet += bet
+                print(f"Bet of ${bet} placed on {chosen_color}. Remaining balance: ${balance - total_bet:.2f}")
+
+            except ValueError:
+                print("Invalid input. Please enter numbers only.")
+
+        if not bets:
+            print("No bets placed. Try again.")
+            continue
+
+        balance -= total_bet
+        print("\nRolling dice...\n")
+        rolled = roll_cubes()
+        show_cubes(rolled)
+
+        total_payout = 0
+        for color, bet in bets.items():
+            matches = calculate_matches(rolled, color)
+            payout = calculate_payout(matches, bet)
+            if matches > 0:
+                print(f"{color}: {matches} match(es)! Bet: ${bet}, Payout: ${payout}")
+            else:
+                print(f"{color}: No matches. Bet lost: ${bet}")
+            total_payout += payout
+
+        balance += total_payout
+        print(f"\nTotal payout this round: ${total_payout:.2f}")
+        print(f"Your new balance: ${balance:.2f}")
+
+    print("\nGame Over! You've run out of balance.")
+
+if __name__ == "__main__":
+    main()
